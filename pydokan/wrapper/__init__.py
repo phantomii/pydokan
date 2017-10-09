@@ -45,11 +45,14 @@ class StructWrapper(DataWrapper):
         return self._struct
         
     struct = property(lambda self: self._struct[0])
-        
-    field = lambda x: property(lambda s: getattr(s.struct, x), 
+
+    @staticmethod
+    def field(x):
+        return property(lambda s: getattr(s.struct, x),
                                lambda s, v: setattr(s.struct, x, v))
-    
-    field_bool = lambda x: property(lambda s: bool(getattr(s.struct, x)),
+    @staticmethod
+    def field_bool(x):
+        property(lambda s: bool(getattr(s.struct, x)),
                                     lambda s, v: setattr(s.struct, x, 1 if v else 0))
         
     def debug_repr(self):
